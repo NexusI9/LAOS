@@ -1,0 +1,36 @@
+@charset "UTF-8";
+/* CSS Document */
+
+
+
+#vfx_canvas{
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    display: block;
+    z-index: -1;
+    position: fixed;
+    overflow: hidden;
+
+}
+
+
+.vfx_star{
+
+  display: block;
+  position: absolute;
+  background-image: url("media/star.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  transform-origin: center center;
+  opacity: 0.2;
+
+}
+
+#vfx_epicentre{
+
+  position: absolute;
+  z-index: 88;
+  
+
+}

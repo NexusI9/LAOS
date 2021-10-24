@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>LAOS</title>
+<link href="./sheet.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="./js/jquery-3.6.0.min.js"></script>
+<script src="./js/jquery.s2t.js" type="text/javascript"></script>
+<script src="./js/convert.js" type="text/javascript"></script>
+<script src="./js/pinyin.js" type="text/javascript"></script>
+<script src="./js/xlsx.full.min.js" type="text/javascript"></script>
+<script src="./js/jquery-ui-1.12.1.custom/jquery-ui.js" type="text/javascript"></script>
+
+<link href="./js/vfx/vfx_sheet.css" rel="stylesheet" type="text/css">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Hind:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap');
+</style>
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="./media/favico/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="./media/favico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="./media/favico/favicon-16x16.png">
+<link rel="manifest" href="./media/favico/site.webmanifest">
+<link rel="mask-icon" href="./media/favico/safari-pinned-tab.svg" color="#5fc6ff">
+<link rel="shortcut icon" href="./media/favico/favicon.ico">
+<meta name="msapplication-TileColor" content="#ffc40d">
+<meta name="msapplication-config" content="./media/favico/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+
+
+
+</head>
+
+<body>
+
+
+    <script src="./js/engine.js" type="module"></script>
+
+    <section id="popup_desc" style="padding:0 0.3em; z-index: 999; position:absolute; pointer-events: none;height:1.6em; display: block; background: rgba(222,222,222,0.5); border-radius: 2em; opacity:0; transition:opacity 0.2s ease-out;">
+      <p style="color:#000;font-size: 0.8em; line-height:0;"></p>
+    </section>
+
+
+    <section id="switcher">
+
+      <div>
+        <span class="picto scene mode" id="grid" p="mone"></span>
+        <section class="setting uicolor mone">
+              <span desc="Typing mode" class="picto" data-value="false" id="list_manual"></span>
+              <span desc="Roll ! To randomize the list" class="picto ico_roll" id="list_rand"></span>
+              <span desc="Switch to dark/light mode" class="picto" data-mode="false" id="list_moon"></span>
+              <!--<span desc="Toggle desciptions hover" class="picto mone" id="lock" style="display:none;"></span>-->
+        </section>
+      </div>
+
+      <div>
+        <span class="picto scene mode" id="memo" p="mthree"></span>
+        <section class="setting uicolor mthree">
+              <span desc="Toggle Pinyin translation below" class="picto" id="ico_pinyin"></span>
+              <span desc="Roll ! For new random cards" class="picto ico_roll" id="ico_rand"></span>
+        </section>
+
+      </div>
+
+      <div>
+        <span class="picto scene mode" id="face" p="mtwo" ></span>
+        <section class="setting uicolor mtwo">
+              <span desc="Switch to automatic mode" class="picto" id="chrono" data-value="false"></span>
+              <span desc="Display answer (you can also hover the characters)" class="picto" id="quest"></span>
+              <span desc="Toggle definition below" class="picto translate" id="two_def"></span>
+        </section>
+      </div>
+
+      <div>
+        <span class="picto scene mode" id="sent" p="mfour"></span>
+        <section class="setting uicolor mfour">
+              <span desc="Toggle Pinyin translation below" class="picto" id="four_ico_pinyin"></span>
+              <span desc="Toggle English translation" class="picto translate" id="four_ico_yingwen"></span>
+              <span desc="Roll ! For new random sentences" class="picto ico_roll" id="four_ico_rand"></span>
+        </section>
+      </div>
+
+    </section>
+
+
+</body>
+</html>
