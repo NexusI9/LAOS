@@ -342,8 +342,10 @@ chrome.runtime.onMessage.addListener(function(req, sender, cback){
     break;
 
     case 'query':
-      let tatoebaQuery = "https://tatoeba.org/fr/sentences/search?from=cmn&to=eng&query="+req.object[0][ laosSettings["tradsimp"] ];
-      chrome.tabs.create({ url: tatoebaQuery });
+      chrome.storage.local.get('laosSettings',(data) => {
+        let tatoebaQuery = "https://tatoeba.org/fr/sentences/search?from=cmn&to=eng&query="+req.object[0][ data.laosSettings['tradsimp'] ];
+        chrome.tabs.create({ url: tatoebaQuery });
+      });
     break;
 
     case 'updateStorage':

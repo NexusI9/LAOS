@@ -187,7 +187,7 @@ a, a:visited, a:hover, a:active { color:#FFF; }
   transition: opacity 0.3 ease;
   justify-content: center;
   align-items: center;
-  font-weight: bold;
+  font-weight: initial;
   text-transform: lowercase;
 }
 
@@ -502,20 +502,9 @@ button:focus {
 
 .td_character{  font-size: 120%; }
 
-.td_def{
-  padding: 0.5em 2em;
-}
+.td_def{  padding: 0.5em 1em; }
 
-.td_input{
-  display: none;
-}
 
-.td_input input{
-  font-size: 1.05em;
-  background:none;
-  border:none;
-  border-bottom: 2px solid #949494;
-}
 
 .td_close{
   width:1em;
@@ -532,8 +521,7 @@ button:focus {
 
 .tr_selected{
   color:#FFF;
-  background-color: #FFF;
-  background-image: radial-gradient(circle at top left, rgba(255, 0, 115,0.7),rgba(32, 148, 255,0.7)) !important;
+  background-color: var(--mone);
 }
 
 .tr_dark{ background:#696969; }
@@ -543,9 +531,10 @@ button:focus {
 }
 
 .tr_selected input{
-  border-bottom-color: #FFF;
-  color: #FFF;
+  border-color: white !important;
+  color: #FFF !important;
 }
+
 
 #noWords{
   pointer-events: none;
@@ -559,6 +548,18 @@ button:focus {
   transform: translate(-50%, -50%);
 }
 
+#input_column{  display: none; }
+.td_input{ position: relative; display: none; }
+.td_input input{
+  font-size: 1.05em;
+  background:none;
+  border:none;
+  border-bottom: 2px solid #949494;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+
 .warnWindow{
     color: #999;
     background: #ececec;
@@ -566,6 +567,22 @@ button:focus {
     border-radius: 1em;
     font-size: 0.5em;
 }
+
+
+.pOne table{
+  width: 100%;
+  table-layout: fixed;
+}
+
+.pOne td{
+  word-break: break-word;
+}
+
+.pOne table th:nth-child(1), .pOne table td:nth-child(1){width: 4%;}
+.pOne table th:nth-child(2), .pOne table td:nth-child(2){width: 15%;}
+.pOne table th:nth-child(3), .pOne table td:nth-child(3){width: 10%;}
+.pOne table th:nth-child(4), .pOne table td:nth-child(4){width: 10%;}
+.pOne table th:nth-child(5), .pOne table td:nth-child(5){width: auto; padding-right: 8%;}
 
 #tableManager{
   position: fixed;
@@ -581,7 +598,8 @@ button:focus {
   border-radius: 0.5em;
   margin: 0.4em;
   cursor: pointer;
-  border: solid 2px var(--mone);
+  border: none;
+  border-bottom: solid;
   color: white;
   background: var( --mone);
 }
@@ -956,7 +974,7 @@ button:focus {
     border-radius: 0.4em;
     box-sizing: border-box;
     background: #FFF;
-
+    margin: 10px;
     transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.5s ease;
 }
 
@@ -1107,14 +1125,12 @@ button:focus {
   display: inline-block;
   cursor: pointer;
   padding: 0.5em 0.7em;
-  background-color: #FFF;
-  background-image: radial-gradient(circle at top left, rgba(255, 0, 115,0.7),rgba(32, 148, 255,0.7)) !important;
+  background-color: var(--mone);
   border: none;
   color: #fff;
-  box-shadow: -1px 1px 4px #503cb38a;
 }
 
-#options #openLaos:hover{  background: #1f73c8; }
+#options #openLaos:hover{  background-color: #1f73c8; }
 #options #openLaos:active{  background-color: #14265c;  }
 
 #options .sepbar{
@@ -1174,8 +1190,7 @@ button:focus {
 }
 
 #options .switch input:checked + .slider{
-  background-color: #FFF;
-  background-image: radial-gradient(circle at top left, rgba(255, 0, 115,0.7),rgba(32, 148, 255,0.7)) !important;
+  background-color: var(--mone);
 }
 
 #options .laos_setting{
@@ -1221,8 +1236,7 @@ button:focus {
 
 
 #options .radio input:checked + span{
-  background-color: #FFF;
-  background-image: radial-gradient(circle at top left, rgba(255, 0, 115,0.7),rgba(32, 148, 255,0.7)) !important;
+  background-color: var(--mone);
 }
 
 #options .radio input:checked ~ p{

@@ -1,4 +1,3 @@
-
 import * as UTILS from '../utils.js';
 
 export default class MONE_ONE{
@@ -162,58 +161,55 @@ export default class MONE_ONE{
 
     $("#list_manual").on("click",function(){
 
-        if($(this).attr("data-value") == 'false'){
+        switch( $(this).attr("data-value") ){
 
-          $(this).css({backgroundImage:'url("media/disp.svg")'});
-          $(this).attr("desc",'Back to normal view');
-          $(".td_def p, .td_pinyin p").css({opacity:0});
-          $(".td_def, .td_pinyin").hover(
-            function(){ $(this).parent().find(".td_def p, .td_pinyin p").css({opacity:1});
-          },
-            function(){ $(this).parent().find(".td_def p, .td_pinyin p").css({opacity:0}); }
-          );
-          $("colgroup col:nth-child(5)").attr("style","width:10%");
-          $(".td_input").css({
-            display:"table-cell",
-            position:'relative'
-        });
-          //$("tbody tr:nth-child(3)").insertAfter();
+          case 'false':
+            $(this).css({backgroundImage:'url("media/disp.svg")'});
+            $(this).attr("desc",'Back to normal view');
+            $(".td_def p, .td_pinyin p").css({opacity:0});
+            $(".td_def, .td_pinyin").hover(
+              function(){ $(this).parent().find(".td_def p, .td_pinyin p").css({opacity:1});
+            },
+              function(){ $(this).parent().find(".td_def p, .td_pinyin p").css({opacity:0}); }
+            );
 
-          $(".td_input input").change(function(){
+            $("#input_column").css({ display:'table-column' });
+            $(".td_input").css({ display:'table-cell' });
 
-              let clean_pinyin = UTILS.remove_tones($(this).parent().parent().find(".td_pinyin p").html()).replace(/\s/g, '');
-              if( $(this).val() == clean_pinyin ){
-                $(this).parent().parent().find(".td_def p, .td_pinyin p").css({opacity:1});
-                $(this).parent().parent().find(".td_def, .td_pinyin").unbind('mouseenter mouseleave');
-                $(this).parent().parent().addClass("tr_selected");
-                $(this).parent().parent().attr("data-selected","true");
-                $(this).css({color:"#FFF"});
-              }else{
-                $(this).val("");
-                $(this).effect("shake");
-                $(this).parent().parent().removeClass("tr_selected");
-                $(this).parent().parent().attr("data-selected","false");
-                $(this).css({color:"#000"});
-              }
+            $(".td_input input").change(function(){
 
-              self.scan_selection();
-              self.UI_checkButton();
+                let clean_pinyin = UTILS.remove_tones($(this).parent().parent().find(".td_pinyin p").html()).replace(/\s/g, '');
+                if( $(this).val() == clean_pinyin ){
+                  $(this).parent().parent().find(".td_def p, .td_pinyin p").css({opacity:1});
+                  $(this).parent().parent().find(".td_def, .td_pinyin").unbind('mouseenter mouseleave');
+                  $(this).parent().parent().addClass("tr_selected");
+                  $(this).parent().parent().attr("data-selected","true");
+                }else{
+                  $(this).val("");
+                  $(this).effect("shake");
+                  $(this).parent().parent().removeClass("tr_selected");
+                  $(this).parent().parent().attr("data-selected","false");
+                }
 
+                self.scan_selection();
+                self.UI_checkButton();
 
-          });
+            });
 
-          $(this).attr("data-value",'true')
-        }else{
-          $(this).css({backgroundImage:'url("media/pen.svg")'});
-          $(this).attr("desc",'Typing exercise');
-          $(".td_def, .td_pinyin").unbind('mouseenter mouseleave');
-          $(".td_def p, .td_pinyin p").css({opacity:1});
-          $(".td_input").css({display:"none"});
-          $("colgroup col:nth-child(5)").attr("style","width:40%");
+            $(this).attr("data-value",'true');
+          break;
 
+          case 'true':
+            $(this).css({backgroundImage:'url("media/pen.svg")'});
+            $(this).attr("desc",'Typing exercise');
+            $(".td_def, .td_pinyin").unbind('mouseenter mouseleave');
+            $(".td_def p, .td_pinyin p").css({opacity:1});
+            $("#input_column, .td_input").css({ display:'none' });
 
-          $(this).attr("data-value",'false')
+            $(this).attr("data-value",'false');
+          break;
         }
+
 
     });
 
@@ -254,7 +250,7 @@ export default class MONE_ONE{
 
           tr.innerHTML = tBuilder;
           self.wordList[x][y].key = tr;
-          $("table tbody tr:first-child()").after(tr);
+          $("table tbody").prepend(tr);
         }
 
       }
