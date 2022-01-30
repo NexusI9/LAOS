@@ -26,10 +26,15 @@
      <section style=" font-size: 80%; color: #777; font-weight: 300;"> settings<section>
   </div>
 
-  <label id="openLaos" class="ui">Open LAOS
+  <div id='toolBar'>
+    <label id="openLaos" class="ui">Open LAOS
     <input type="button"></input>
   </label>
-  <br>
+
+    <label id="openOCR" class="ui">
+      <input type="button"></input>
+    </label>
+  </div>
 
   <span class="sepbar"></span>
 
@@ -43,15 +48,6 @@
     </label>
   </div>
 
-
-  <div class="laos_setting">
-    <p>Display zhuyin</p>
-    <label class="switch">
-      <input type="checkbox" name="dispZhuyin">
-      <span class="slider ui"></span>
-    </label>
-  </div>
-
   <div class="laos_setting">
     <p>Notifications</p>
     <label class="switch">
@@ -60,6 +56,15 @@
     </label>
   </div>
 
+  <div class="laos_setting">
+    <p>Pinyin bubbles</p>
+    <label class="switch">
+      <input type="checkbox" name="pinyinBubble">
+      <span class="slider ui"></span>
+    </label>
+  </div>
+
+  <div class='laos_setting seperator'></div>
 
   <div class="laos_setting ui nogap round">
     <label class="radio">
@@ -77,10 +82,6 @@
   </div>
 
 </div>
-
-  <!--<div id="donate">
-    <p> Enjoying LAOS ? Please DONATE </p>
-  </div>-->
 
   <div id="about">
     <a> about </a>

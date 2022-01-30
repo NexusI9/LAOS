@@ -1,4 +1,4 @@
-import * as UTILS from '../utils.js';
+import * as UTILS from '../utilities/utils.js';
 
 export default class MONE_ONE{
 
@@ -186,7 +186,7 @@ export default class MONE_ONE{
                   $(this).parent().parent().attr("data-selected","true");
                 }else{
                   $(this).val("");
-                  $(this).effect("shake");
+                  UTILS.shake(this);
                   $(this).parent().parent().removeClass("tr_selected");
                   $(this).parent().parent().attr("data-selected","false");
                 }

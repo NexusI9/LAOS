@@ -1,5 +1,5 @@
 
-import * as UTILS from '../utils.js';
+import * as UTILS from '../utilities/utils.js';
 
 export default class MODE_TWO{
 
@@ -94,7 +94,7 @@ export default class MODE_TWO{
                     $("#desc").html( self.wordList[new_rand_parent][new_rand_child]["definition"].join(";\xa0\xa0"));
                     $(".write").css({ width:$("#pin").width()+"px" });
                   }else{
-                    $(".write").effect("shake");
+                    UTILS.shake('.write');
                   }
 
               }

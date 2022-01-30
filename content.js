@@ -1,14 +1,9 @@
 /*
 
 LAOS - The mandarin learning toolbox
-Written by Nassim El Khantour.
-  https://elkhantour.com/
-  Copyright (C) 2021 Nassim El Khantour
-
-Parts of this script were take from the Zhongwen - A Chinese-English Pop-Up Dictionary
- Copyright (C) 2019 Christian Schiller
- https://chrome.google.com/extensions/detail/kkmlkkjojmombglmlpbpapmhcaljjkde
-
+by Nassim El Khantour.
+https://elkhantour.com/
+Copyright (C) 2021 Nassim El Khantour
 
  ---
 
@@ -34,10 +29,12 @@ Parts of this script were take from the Zhongwen - A Chinese-English Pop-Up Dict
  */
 
 
+/*
+Check ROOT/js/components.js for all the components
+*/
 
  const REGEX_CHINESE = /[\u4e00-\u9fff]|[\u3400-\u4dbf]|[\u{20000}-\u{2a6df}]|[\u{2a700}-\u{2b73f}]|[\u{2b740}-\u{2b81f}]|[\u{2b820}-\u{2ceaf}]|[\uf900-\ufaff]|[\u3300-\u33ff]|[\ufe30-\ufe4f]|[\uf900-\ufaff]|[\u{2f800}-\u{2fa1f}]/u;
- const REGEX_PONCT = /[\$\uFFE5\^\+=`~<>{}\[\]|\u3000-\u303F!-#%-\x2A,-/:;\x3F@\x5B-\x5D_\x7B}\u00A1\u00A7\u00AB\u00B6\u00B7\u00BB\u00BF\u037E\u0387\u055A-\u055F\u0589\u058A\u05BE\u05C0\u05C3\u05C6\u05F3\u05F4\u0609\u060A\u060C\u060D\u061B\u061E\u061F\u066A-\u066D\u06D4\u0700-\u070D\u07F7-\u07F9\u0830-\u083E\u085E\u0964\u0965\u0970\u0AF0\u0DF4\u0E4F\u0E5A\u0E5B\u0F04-\u0F12\u0F14\u0F3A-\u0F3D\u0F85\u0FD0-\u0FD4\u0FD9\u0FDA\u104A-\u104F\u10FB\u1360-\u1368\u1400\u166D\u166E\u169B\u169C\u16EB-\u16ED\u1735\u1736\u17D4-\u17D6\u17D8-\u17DA\u1800-\u180A\u1944\u1945\u1A1E\u1A1F\u1AA0-\u1AA6\u1AA8-\u1AAD\u1B5A-\u1B60\u1BFC-\u1BFF\u1C3B-\u1C3F\u1C7E\u1C7F\u1CC0-\u1CC7\u1CD3\u2010-\u2027\u2030-\u2043\u2045-\u2051\u2053-\u205E\u207D\u207E\u208D\u208E\u2329\u232A\u2768-\u2775\u27C5\u27C6\u27E6-\u27EF\u2983-\u2998\u29D8-\u29DB\u29FC\u29FD\u2CF9-\u2CFC\u2CFE\u2CFF\u2D70\u2E00-\u2E2E\u2E30-\u2E3B\u3001-\u3003\u3008-\u3011\u3014-\u301F\u3030\u303D\u30A0\u30FB\uA4FE\uA4FF\uA60D-\uA60F\uA673\uA67E\uA6F2-\uA6F7\uA874-\uA877\uA8CE\uA8CF\uA8F8-\uA8FA\uA92E\uA92F\uA95F\uA9C1-\uA9CD\uA9DE\uA9DF\uAA5C-\uAA5F\uAADE\uAADF\uAAF0\uAAF1\uABEB\uFD3E\uFD3F\uFE10-\uFE19\uFE30-\uFE52\uFE54-\uFE61\uFE63\uFE68\uFE6A\uFE6B\uFF01-\uFF03\uFF05-\uFF0A\uFF0C-\uFF0F\uFF1A\uFF1B\uFF1F\uFF20\uFF3B-\uFF3D\uFF3F\uFF5B\uFF5D\uFF5F-\uFF65]+/g
-
+ const REGEX_PONCT = /[\$\uFFE5\^\+=`~<>{}\[\]|\u3000-\u303F!-#%-\x2A,-/:;\x3F@\x5B-\x5D_\x7B}\u00A1\u00A7\u00AB\u00B6\u00B7\u00BB\u00BF\u037E\u0387\u055A-\u055F\u0589\u058A\u05BE\u05C0\u05C3\u05C6\u05F3\u05F4\u0609\u060A\u060C\u060D\u061B\u061E\u061F\u066A-\u066D\u06D4\u0700-\u070D\u07F7-\u07F9\u0830-\u083E\u085E\u0964\u0965\u0970\u0AF0\u0DF4\u0E4F\u0E5A\u0E5B\u0F04-\u0F12\u0F14\u0F3A-\u0F3D\u0F85\u0FD0-\u0FD4\u0FD9\u0FDA\u104A-\u104F\u10FB\u1360-\u1368\u1400\u166D\u166E\u169B\u169C\u16EB-\u16ED\u1735\u1736\u17D4-\u17D6\u17D8-\u17DA\u1800-\u180A\u1944\u1945\u1A1E\u1A1F\u1AA0-\u1AA6\u1AA8-\u1AAD\u1B5A-\u1B60\u1BFC-\u1BFF\u1C3B-\u1C3F\u1C7E\u1C7F\u1CC0-\u1CC7\u1CD3\u2010-\u2027\u2030-\u2043\u2045-\u2051\u2053-\u205E\u207D\u207E\u208D\u208E\u2329\u232A\u2768-\u2775\u27C5\u27C6\u27E6-\u27EF\u2983-\u2998\u29D8-\u29DB\u29FC\u29FD\u2CF9-\u2CFC\u2CFE\u2CFF\u2D70\u2E00-\u2E2E\u2E30-\u2E3B\u3001-\u3003\u3008-\u3011\u3014-\u301F\u3030\u303D\u30A0\u30FB\uA4FE\uA4FF\uA60D-\uA60F\uA673\uA67E\uA6F2-\uA6F7\uA874-\uA877\uA8CE\uA8CF\uA8F8-\uA8FA\uA92E\uA92F\uA95F\uA9C1-\uA9CD\uA9DE\uA9DF\uAA5C-\uAA5F\uAADE\uAADF\uAAF0\uAAF1\uABEB\uFD3E\uFD3F\uFE10-\uFE19\uFE30-\uFE52\uFE54-\uFE61\uFE63\uFE68\uFE6A\uFE6B\uFF01-\uFF03\uFF05-\uFF0A\uFF0C-\uFF0F\uFF1A\uFF1B\uFF1F\uFF20\uFF3B-\uFF3D\uFF3F\uFF5B\uFF5D\uFF5F-\uFF65]+/g;
 
 
 //RANGE
@@ -55,228 +52,18 @@ const bubble_param = {
 }
 const bubble_list = [];
 var lastLocation = "";
-class BUBBLE{
-
-  constructor(range, result){
-    this.box = range.getBoundingClientRect();
-    this.pinyin = tone( result.data[0][0].match( /(?<=\[).+?(?=\])/ )[0] );
-  }
-
-  pop(){
-    if(!this.box || !this.pinyin){ return; }
-
-
-    this.pinyin = this.pinyin.split(" ");
-    this.node = $("<div class='laos_bubble'></div>");
-    for(var p of this.pinyin){ this.node.append("<p>"+p+"</p>"); }
-
-    //no doublon comparing box (position...)
-    for(var b of bubble_list){
-      if(JSON.stringify(b.box) == JSON.stringify(this.box)){ return; }
-    }
-
-    bubble_list.push(this);
-    $("body").append(this.node);
-    this.node.css({
-      top: $(window).scrollTop() + (this.box.y + this.box.height + 5 ) + "px",
-      left: this.box.x + "px",
-      minWidth: this.box.width,
-      display:'flex',
-      alignItems: 'center',
-      justifyContent: 'space-around'
-    });
-
-    if( this.box.width < this.node.width() ){
-      this.node.css({
-        left: this.box.x + -5 + -1 * Math.abs(this.node.width() - this.box.width)/2 + "px"
-      });
-    }
-
-    this.setEvent();
-  }
-
-  setEvent(){
-
-    this.node.hover(
-      () => this.node.addClass('active') ,
-      () => this.node.removeClass('active')
-    );
-
-    this.node.on('click',() => { this.node.animate({opacity:0}, 200, () => { this.node.remove(); bubble_list.splice(bubble_list.indexOf(this.node),1); });  });
-
-  }
-
-  remove(){
-
-  }
-
-}
 
 //LAOS POPUP
 let laosSettings;
 let posX, posY;
-let stablePosY;
 let globalObject;
 let lastObj;
-class LAOS_POPUP{
 
-  constructor(id){
-    this.id = id;
-    this.$node = $("#"+this.id);
-    window.onload = () => this.pop();
-  }
-
-  append(){
-    let elt = document.createElement("div");
-    elt.setAttribute("id",this.id);
-    document.body.appendChild(elt);
-    this.$node = $("#"+this.id);
-  }
-
-  remove(){
-    if(this.$node){
-      this.$node.remove();
-      this.$node = null;
-    }
-  }
-
-  pop(){
-    if(!this.$node || this.$node.length == 0 ){ this.append(); }
-  }
-
-
-  fill(res){
-
-      if(this.$node.length == 0 || !res.data){return;}
-      let obj_array = [];
-
-      for(var d = 0; d < res.data.length; d++){
-
-        let zhg = res.data[d][0].match( /^[^\[]+/gm );
-        let trad = "";
-
-        zhg = zhg[0].split(" ");
-        zhg = zhg.filter(item => item);
-
-        trad = zhg[0];
-        zhg = zhg[1];
-
-        let pin = res.data[d][0].match( /(?<=\[).+?(?=\])/ );
-        let zhu = toZhuyin(pin[0]);
-        pin = tone(pin[0]).toLowerCase();
-        pin = pin.split(" ");
-
-        let trans = res.data[d][0].match( /(?<=\/).*/gm );
-
-        trans = tone(trans[0]);
-        trans = trans.split("/");
-
-        let words = {
-          simplified: zhg,
-          traditional:trad,
-          pinyin:pin,
-          zhuyin:zhu,
-          definition:trans
-        };
-
-        obj_array.push(words);
-
-        }
-
-        globalObject = obj_array;
-
-        //////-----------------UI-------------------
-        //////-----------------UI-------------------
-        //////-----------------UI-------------------
-        //////-----------------UI-------------------
-
-        this.$node.empty();
-
-        let $popUp = $("#"+this.id);
-        let normalised = ( posX / $(window).width() );
-
-        for(let ob = 0; ob < obj_array.length; ob++){
-
-        let currentOb = obj_array[ob];
-
-        //word
-        let folder = document.createElement("section");
-        folder.setAttribute("class","laos_folder");
-        document.getElementById(this.id).appendChild(folder);
-
-        let header = document.createElement("section");
-        header.setAttribute("class","laos_header");
-        folder.appendChild(header);
-        //zhong
-        let zhongwen = document.createElement("h1");
-        zhongwen.setAttribute("class","laos_zhongwhen");
-        header.appendChild(zhongwen);
-        //pin
-        switch(laosSettings["tradsimp"]){
-
-          case 'traditional':
-              $(zhongwen).text(currentOb["traditional"]+"\xa0"+ remove_string_doublon(currentOb["traditional"], currentOb["simplified"]) );
-          break;
-
-          case 'simplified':
-              $(zhongwen).text(currentOb["simplified"]+"\xa0"+  remove_string_doublon(currentOb["simplified"], currentOb["traditional"]) );
-          break;
-
-          default:
-        }
-
-
-        let pinyin = document.createElement("h1");
-        pinyin.setAttribute("class","laos_pinyin");
-        header.appendChild(pinyin);
-
-        $(pinyin).html( set_class_tone(currentOb["pinyin"]) );
-
-        if(laosSettings["dispZhuyin"] == "true"){
-
-          let zhuyin = document.createElement("h1");
-          zhuyin.setAttribute("class","laos_zhuyin");
-          header.appendChild(zhuyin);
-          $(zhuyin).html(set_class_tone_zhuyin(currentOb["zhuyin"]));
-
-        }
-
-        let def = document.createElement("p");
-        def.setAttribute("class","laos_def");
-        folder.appendChild(def);
-
-        $(def).text(currentOb["definition"].join(";\xa0\xa0"));
-
-        }
-
-        let tips = `
-          <div id="laos_tips" style="opacity:0;">
-            <p> <span class='laos_key'>R</span> add words </p>
-            <p>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M13 2V10H19V8C19 4.691 16.309 2 13 2ZM5 16C5 19.309 7.691 22 11 22H13C16.309 22 19 19.309 19 16V12H5V16Z" fill="black"/>
-            <path d="M5 10V8C5 4.691 7.691 2 11 2V10H5Z" fill="#FF0073"/>
-            </svg> Pinyin bubble </p>
-            <p> <span class='laos_key'>alt + E</span> open list </p>
-            <p> <span class='laos_key'>alt + T</span> query in Tatoeba </p>
-          </div>
-        `;
-
-      this.$node.append(tips);
-
-      $popUp.css({
-        display:'block',
-        top:posY + 20,
-        left: posX - this.$node.width() * normalised
-      });
-
-      setTimeout(function(){$("#laos_tips").css({opacity:1});}, 3000);
-
-  }
-
-}
 const laos_popup = new LAOS_POPUP("laos_popup");
 
+//CAPTURE & CROP
+let jCrop;
+let laos_ocr = new LAOS_OCR({ onDestroy: () => jCrop = null });
 
 //TEXT
 function textResult(result){
@@ -297,7 +84,7 @@ function textResult(result){
    select.removeAllRanges();
    select.addRange(newRange);
 
-   laos_popup.fill(result);
+   laos_popup.fill(result, posX, posY);
    bubble_param.range = newRange;
    bubble_param.result = result;
 
@@ -384,7 +171,6 @@ function remove_string_doublon(ref,exp){
 
 
 }
-
 function getText(nd){
 
   if(!REGEX_CHINESE.test(nd.data)){ return; }
@@ -397,27 +183,26 @@ function getText(nd){
   range.setStart(nd,startOffset);
   range.setEnd(nd,startOffset+max_increment);
   savedRange = range;
+  range = range.toString();
 
-  if(lastText !== range.toString() && !REGEX_PONCT.test(range.toString()) && isNaN( range.toString() ) ){
+  if(lastText !== range && !REGEX_PONCT.test(range) && isNaN(range) ){
+    globalObject = null;
 
     chrome.runtime.sendMessage({
       type:'search',
-      text: range.toString()
+      text: range
       },
       textResult
     );
 
-    lastText = range.toString();
+    lastText = range;
   }
 
 
   return;
 }
-
 function findNextTextNode(root, previous) {
-    if (root === null) {
-        return null;
-    }
+    if (root === null) { return null; }
 
     let nodeIterator = document.createNodeIterator(root, NodeFilter.SHOW_TEXT, null);
     let node = nodeIterator.nextNode();
@@ -428,11 +213,8 @@ function findNextTextNode(root, previous) {
         }
     }
     let result = nodeIterator.nextNode();
-    if (result !== null) {
-        return result;
-    } else {
-        return findNextTextNode(root.parentNode, previous);
-    }
+    if (result !== null) { return result; }
+    else { return findNextTextNode(root.parentNode, previous); }
 }
 
 //EVENTS
@@ -483,10 +265,11 @@ function onMouseMove(mouseMove){
           rangeOffset = 0;
       }
 
-      if (!rangeNode || rangeNode.parentNode !== mouseMove.target) {
-        lastText = undefined;
-        if( laos_popup.$node.css('display') !== 'none')
-        {
+      if (!rangeNode || rangeNode.parentNode !== mouseMove.target && !jCrop){
+        lastText = null;
+        globalObject = null;
+
+        if( laos_popup.$node.css('display') !== 'none'){
           select.removeAllRanges();
           if(laos_popup.$node){
             laos_popup.$node.css({display:'none'});
@@ -499,7 +282,8 @@ function onMouseMove(mouseMove){
 
       if(rangeNode &&
         rangeNode.data &&
-        rangeOffset < rangeNode.data.length){ //"capture"
+        rangeOffset < rangeNode.data.length &&
+        !jCrop){
 
           savedStartOffset = rangeOffset;
           targetNode = rangeNode;
@@ -517,17 +301,57 @@ function onMouseDown(mouseDown){
   if($("#"+laos_popup.id)){ $("#"+laos_popup.id).css({display:"none"}); }
 }
 
-function onKeyDown(keydown){
+function laosKeyDown(keydown){
 
-    if(keydown.altKey && keydown.keyCode == 69){
-        chrome.runtime.sendMessage({
-            type: 'open',
-            url: '/laos.html'
-        });
-        return;
+  if(keydown.altKey && keydown.keyCode == 69){
+      /* Alt + E */
+      chrome.runtime.sendMessage({
+          type: 'open',
+          url: '/laos.html'
+      });
+      return;
+  }
+
+}
+
+function globalKeyDown(keydown){
+
+    /*Pop manually a notification*/
+    if(keydown.altKey && keydown.keyCode == 81 ){
+      chrome.runtime.sendMessage({type:'notif'});
+      return;
     }
 
-    if(keydown.keyCode == 82 && lastText !== undefined && laos_popup.$node.css('display') != 'none'){
+    /*Get word list*/
+    if(keydown.altKey && keydown.keyCode == 84 ){
+      chrome.runtime.sendMessage({
+        type:'query',
+        object: globalObject
+      });
+      return;
+    }
+
+    /*Destroy Jcrop*/
+    if(keydown.key === 'Escape'){
+      if(jCrop){
+        jCrop.destroy();
+        jCrop = null;
+      }
+      return;
+    }
+
+    /*Apply Jcrop*/
+    if(keydown.key === 'Enter'){
+      if(jCrop){
+        keydown.preventDefault(); //safety so doesn't enter an input
+        jCrop.destroy();
+        laos_ocr.fetchOCR(jCrop.src, jCrop.area, laosSettings['tradsimp']);
+        laos_ocr.pop();
+      }
+    }
+
+    /*Add found word to word list*/
+    if(keydown.keyCode == 82 && globalObject !== null){
       chrome.runtime.sendMessage({
           type: 'add',
           object: globalObject
@@ -545,18 +369,7 @@ function onKeyDown(keydown){
 
     }
 
-    if(keydown.altKey && keydown.keyCode == 81 ){
-      chrome.runtime.sendMessage({type:'notif'});
-      return;
-    }
 
-    if(keydown.altKey && keydown.keyCode == 84 ){
-      chrome.runtime.sendMessage({
-        type:'query',
-        object: globalObject
-      });
-      return;
-    }
 
 }
 
@@ -568,10 +381,11 @@ function onMouseUp(mouseUp){
 function onClick(e){
 
   //if click on anchor
+  if(laosSettings && laosSettings.pinyinBubble == 'false'){ return; }
   if(e.target.nodeName == "A"){
     $('.laos_bubble').remove();
   }else{
-    if(!bubble_param.range || !bubble_param.result || lastText == undefined){ return; }
+    if(!bubble_param.range || !bubble_param.result || globalObject == null){ return; }
     new BUBBLE(bubble_param.range, bubble_param.result).pop();
   }
 }
@@ -582,22 +396,22 @@ function check_events(){
 
     //BUBBLE EVENT
     document.addEventListener('click', onClick);
+    document.addEventListener('keydown', globalKeyDown)
     window.addEventListener('popstate', onPopState );
 
     //LAOS POPUP EVENT
-    if( laosSettings['hoverTrans'] == 'true' ){
+    if( laosSettings && laosSettings['hoverTrans'] == 'true' ){
       laos_popup.pop();
-      document.addEventListener('keydown', onKeyDown);
+      document.addEventListener('keydown', laosKeyDown);
       document.addEventListener('mousemove', onMouseMove);
       document.addEventListener('mousedown',onMouseDown);
       document.addEventListener('mouseup',onMouseUp);
     }else{
       laos_popup.remove();
-      document.removeEventListener('keydown', onKeyDown);
+      document.removeEventListener('keydown', laosKeyDown);
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mousedown',onMouseDown);
       document.removeEventListener('mouseup',onMouseUp);
-      document.removeEventListener('click', onClick);
     }
 
 }
@@ -608,24 +422,55 @@ function __init__(){
   check_events();
   lastLocation = window.location.href;
   /*
-    use Chrome.tabs -> background.js to send new localStorage to all tabs
-        Chrome.runtime -> content.js
+    use - Chrome.tabs -> background.js to send new localStorage to all tabs
+        - Chrome.runtime -> content.js
+        - Window.PostMessage -> ocr iframe
     Add a listener so (live) update when options triggered and send message to background
   */
-  chrome.runtime.onMessage.addListener(function(data){
-    laosSettings = data;
-    check_events();
+
+  chrome.runtime.onMessage.addListener((data) => {
+
+    switch(data.type){
+
+      case 'laosSettings':
+          laosSettings = data.settings;
+          check_events();
+      break;
+
+      case 'jcrop':
+        if(!jCrop){
+          jCrop = new JCROP(data.image);
+          jCrop.init();
+        }
+      break;
+
+    }
+  });
+
+  window.addEventListener('message', (req) =>{
+    req = req.data;
+    switch(req.type){
+      case 'ocr_result':
+        laos_ocr.setResult(req.result);
+      break;
+    }
+
+  });
+
+  window.addEventListener('resize', () => {
+    if(jCrop){
+      jCrop.destroy();
+      jCrop = null;
+    }
   });
 
 
 }
 
-/**
-First sync with chrome.storage -> then init
-**/
-chrome.runtime.sendMessage({type:'init'},function(){
-  chrome.runtime.sendMessage({type:'getLocalStorage'},function(data){
-    laosSettings = data.laosSettings;
+//First sync with chrome.storage -> then init
+chrome.runtime.sendMessage({type:'init'},() => {
+  chrome.runtime.sendMessage({type:'getLocalStorage'},(data) => {
+    laosSettings = data.settings;
      __init__();
   });
 });

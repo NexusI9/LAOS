@@ -1,5 +1,5 @@
 
-import * as UTILS from '../utils.js';
+import * as UTILS from '../utilities/utils.js';
 import {STAR, EXPLODE} from '../vfx/vfx.js';
 
 export default class MODE_THREE{
@@ -38,7 +38,6 @@ export default class MODE_THREE{
         });
 
         $("#ico_pinyin").on("click",function(){
-          console.log("click");
           if($(".three_pin").css("opacity") == 1){  $(".three_pin").css({opacity:0}); }
           else{  $(".three_pin").css({opacity:1});  }
         });
@@ -102,7 +101,7 @@ export default class MODE_THREE{
               }else{
 
                   $(".card input").prop("checked",false);
-                  $(".card_selected").effect("shake");
+                  UTILS.shake(".card_selected");
                   $(".card").removeClass("card_selected");
                   self.clicked_card = 0;
                   self.clicked_array = [];
@@ -129,7 +128,7 @@ export default class MODE_THREE{
 
         });
 
-        $("#three_clicktc").on("click",function(){
+        $("#three_clicktc").unbind().on("click",function(){
 
           $(this).animate({opacity:0},300, () => $(this).css({visibility:"hidden"}));
           $("#three_canvas").animate({opacity:0},300,'linear',function(){
@@ -171,6 +170,7 @@ export default class MODE_THREE{
       var available_card = [];
       var rand_list = UTILS.generate_random_list([0,self.wordList.length],self.total_card/2);
 
+      self.scene_card = self.total_card;
       for(var c = 0; c < self.total_card; c++){
 
         available_card.push(c);

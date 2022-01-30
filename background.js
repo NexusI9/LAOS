@@ -5,10 +5,6 @@ Written by Nassim El Khantour.
   https://elkhantour.com/
   Copyright (C) 2021 Nassim El Khantour
 
-Parts of this script were taken from the Zhongwen - A Chinese-English Pop-Up Dictionary and were optimized
- Copyright (C) 2019 Christian Schiller
- https://chrome.google.com/extensions/detail/kkmlkkjojmombglmlpbpapmhcaljjkde
-
 
  ---
 
@@ -33,122 +29,28 @@ Parts of this script were taken from the Zhongwen - A Chinese-English Pop-Up Dic
 
  */
 
-'use strict';
+
+import ZhongwenDictionary from './js/utilities/zhongwendico.js';
 
 let dict;
 const initStorage = {
   laosSettings: {
         tradsimp:  "simplified",
-        dispZhuyin : "true",
         activeNotif: "true",
-        hoverTrans: "true"
+        hoverTrans: "true",
+        pinyinBubble: "true"
   },
   wordList:[],
   darkMode:'false'
-
 }
 
-
-// importScripts() won't work and MV3 doesn't support ES Module : so import class directly within Background.js
-class ZhongwenDictionary {
-
-    constructor(wordDict, wordIndex, grammarKeywords) {
-        this.wordDict = wordDict;
-        this.wordIndex = wordIndex;
-        this.grammarKeywords = grammarKeywords;
-        this.cache = {};
-    }
-
-    static find(needle, haystack) {
-
-        let beg = 0;
-        let end = haystack.length - 1;
-
-        while (beg < end) {
-            let mi = Math.floor((beg + end) / 2);
-            let i = haystack.lastIndexOf('\n', mi) + 1;
-
-            let mis = haystack.substr(i, needle.length);
-            if (needle < mis) {
-                end = i - 1;
-            } else if (needle > mis) {
-                beg = haystack.indexOf('\n', mi + 1) + 1;
-            } else {
-                return haystack.substring(i, haystack.indexOf('\n', mi + 1));
-            }
-        }
-
-        return null;
-    }
-
-    hasKeyword(keyword) {
-        return this.grammarKeywords[keyword];
-    }
-
-    wordSearch(word, max) {
-
-        let entry = { data: [] };
-
-        let dict = this.wordDict;
-        let index = this.wordIndex;
-
-        let maxTrim = max || 7;
-
-        let count = 0;
-        let maxLen = 0;
-
-        WHILE:
-            while (word.length > 0) {
-
-                let ix = this.cache[word];
-                if (!ix) {
-                    ix = ZhongwenDictionary.find(word + ',', index);
-                    if (!ix) {
-                        this.cache[word] = [];
-                        continue;
-                    }
-                    ix = ix.split(',');
-                    this.cache[word] = ix;
-                }
-
-                for (let j = 1; j < ix.length; ++j) {
-                    let offset = ix[j];
-
-                    let dentry = dict.substring(offset, dict.indexOf('\n', offset));
-
-                    if (count >= maxTrim) {
-                        entry.more = 1;
-                        break WHILE;
-                    }
-
-                    ++count;
-                    if (maxLen === 0) {
-                        maxLen = word.length;
-                    }
-
-                    entry.data.push([dentry, word]);
-                }
-
-                word = word.substr(0, word.length - 1);
-            }
-
-        if (entry.data.length === 0) {
-            return null;
-        }
-
-        entry.matchLen = maxLen;
-        return entry;
-    }
-}
-
-
-
+/*utilities*/
 function isEmpty(data){
   if(!data || Object.keys(data).length == 0){ return true;}
   else{ return false; }
 }
 function update_storage(){
-
+  /*Send back new laos Settings on option changes*/
   chrome.storage.local.get(null,function(data){
 
     if(isEmpty(data['wordList'])){ chrome.storage.local.set({wordList:initStorage.wordList}); }
@@ -159,7 +61,7 @@ function update_storage(){
       if(data.laosSettings.activeNotif){ setAlarm(); }
       chrome.tabs.query({}, function(tabs){
         for(var i = 0; i< tabs.length; i++){
-          chrome.tabs.sendMessage(tabs[i].id, data['laosSettings']);
+          chrome.tabs.sendMessage(tabs[i].id, {type:'laosSettings', settings:data.laosSettings});
         }
       });
     }
@@ -168,8 +70,6 @@ function update_storage(){
 
 
 }
-
-
 function randomInt(mn, mx){
    mn = parseInt(mn);
    mx = parseInt(mx);
@@ -209,9 +109,22 @@ function setAlarm(){
     chrome.alarms.clear("notifAlarm");
     chrome.alarms.create("notifAlarm",alarmConfig);
 }
-
-
-
+function tryImport(url){
+  try{
+    importScripts(chrome.runtime.getURL(url));
+    return true;
+  }catch(e){
+    console.log(e);
+  }
+}
+function startScreenCapture(){
+  chrome.tabs.query({active:true, lastFocusedWindow:true}, (tab) => {
+    chrome.tabs.captureVisibleTab( tab[0].windowId, {format:'png'}, (capture) => {
+      chrome.tabs.sendMessage(tab[0].id, {type:'jcrop', image:capture});
+    });
+  });
+}
+/*dictionary*/
 async function loadDictData() {
     let wordDict = fetch(chrome.runtime.getURL(
         "data/cedict_ts.u8")).then(r => r.text());
@@ -230,7 +143,6 @@ function search(text) {
 
     if (!dict) {
         console.log("no Dictionary loaded");
-        // dictionary not loaded
         return;
     }
 
@@ -249,56 +161,55 @@ function search(text) {
     return entry;
 }
 
-
+/*Message handler*/
 chrome.runtime.onMessage.addListener(function(req, sender, cback){
+
   switch(req.type){
 
     case 'open':
 
-      if(req.url == '/laos.html'){
-        chrome.storage.local.get("tabID",function(data){
+      switch(req.url){
 
-          if( !isEmpty(data) ){
+        case '/laos.html':
+          chrome.storage.local.get("tabID",function(data){
 
-            chrome.tabs.get(data["tabID"],function(tab){
-              if (chrome.runtime.lastError) { tab = undefined; }
-              if(tab){ chrome.tabs.update(tab.id,{active:true}); }
-              else{
-                chrome.tabs.create(
-                  {url: chrome.runtime.getURL( req.url )},
-                  function(tab){  chrome.storage.local.set({tabID:tab.id}); });
-              }
-            });
+            if( !isEmpty(data) ){
 
-          }else{
-            chrome.tabs.create(
-              {url: chrome.runtime.getURL( req.url )},
-              function(tab){  chrome.storage.local.set({tabID: tab.id}); });
-          }
+              chrome.tabs.get(data["tabID"],function(tab){
+                if (chrome.runtime.lastError) { tab = undefined; }
+                if(tab){ chrome.tabs.update(tab.id,{active:true}); }
+                else{
+                  chrome.tabs.create(
+                    {url: chrome.runtime.getURL( req.url )},
+                    function(tab){  chrome.storage.local.set({tabID:tab.id}); });
+                }
+              });
+
+            }else{
+              chrome.tabs.create(
+                {url: chrome.runtime.getURL( req.url )},
+                function(tab){  chrome.storage.local.set({tabID: tab.id}); });
+            }
 
 
-        });
+          });
+        break;
 
-      }else{
-        chrome.tabs.create({url: chrome.runtime.getURL( req.url )});
+        default:
+          chrome.tabs.create({url: chrome.runtime.getURL( req.url )});
       }
+
 
     break;
 
     case 'search':
       if(!dict){ loadDictionary().then(r => dict = r).then( () => {let resp = search(req.text); cback(resp); })  }
-      else{
-        let resp = search(req.text);
-        cback(resp);
-      }
-
+      else{ cback( search(req.text) ); }
     break;
 
     case 'add':
 
       chrome.storage.local.get("wordList",function(data){
-
-          //prevent double add.......
 
           data["wordList"].push(req.object);
           chrome.storage.local.set({wordList: data["wordList"] },function(){
@@ -338,7 +249,7 @@ chrome.runtime.onMessage.addListener(function(req, sender, cback){
     break;
 
     case 'getLocalStorage':
-          chrome.storage.local.get(null, (data) => cback(data));
+          chrome.storage.local.get(null, (data) => cback({type:'laosSettings',settings:data.laosSettings}));
     break;
 
     case 'query':
@@ -361,14 +272,31 @@ chrome.runtime.onMessage.addListener(function(req, sender, cback){
 
     break;
 
+    case 'screenshot':
+      startScreenCapture();
+    break;
+
   }
 
   return true;
 });
 
+
+/*Command handler*/
+chrome.commands.onCommand.addListener( (command) => {
+  //Needs to use command to work with activeTab (~screencapture)
+  switch(command){
+    case 'screencapture':
+      startScreenCapture();
+    break;
+  }
+});
+
+
+/*Alarm and Notification system*/
 chrome.alarms.onAlarm.addListener(function(alarm){  pop_notif(); });
 chrome.notifications.onClosed.addListener(function(){
   chrome.storage.local.get("laosSettings",function(data){
     if(data.laosSettings["activeNotif"] == 'true'){ setAlarm(); }
      chrome.notifications.clear("remindNotif");});
-  });
+});

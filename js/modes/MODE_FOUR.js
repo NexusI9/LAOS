@@ -1,4 +1,4 @@
-import * as UTILS from '../utils.js';
+import * as UTILS from '../utilities/utils.js';
 
 
 
@@ -266,7 +266,7 @@ export default class MODE_FOUR{
               }
 
             }else if(self.selected_bubble["word"] != self.lastGuess["word"] && self.isOverlapping( self.selected_bubble["bubble"] , self.lastGuess["elt"])){
-              $(self.selected_bubble["bubble"]).effect("shake");
+              UTILS.shake(self.selected_bubble["bubble"]);
             }
 
 

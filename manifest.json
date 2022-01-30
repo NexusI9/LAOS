@@ -3,45 +3,49 @@
   "short_name":"LAOS",
   "author":"Nassim El Khantour",
   "background":{
-      "service_worker": "background.js"
+      "service_worker": "background.js",
+      "type":"module"
   },
   "action": {
      "default_icon":"media/logo/LAOS.png",
      "default_popup": "options.html",
      "default_title": "LAOS"
   },
-  "description":"LAOS is the chinese learning toolbox ! Including a popup translator, personalised exercises and much more to come !",
-  "version":"1.3",
+  "description":"LAOS is the chinese learning toolbox! Including a popup translator, personalised exercises and much more!",
+  "version":"1.4.0.1",
   "manifest_version":3,
-  "permissions":["storage", "tabs", "notifications", "alarms"],
+  "permissions":["storage", "tabs", "activeTab","notifications", "alarms"],
+  "host_permissions": [ "\u003Call_urls>" ],
+  "commands": {
+    "screencapture": {
+      "suggested_key": { "default":"Alt+S" },
+        "description": "Enable the screen capture tool"
+      }
+  },
 
   "content_scripts": [
-
     {
      "all_frames": true,
-     "css": [ "laos_sheet.css" ],
-     "js": ["js/jquery-3.6.0.min.js", "js/pinyin-to-zhuyin.js" ,"js/pinyin_converter.js", "content.js" ],
+     "css": [ "laos_sheet.css", "js/jcrop/jcrop.css" ],
+     "js": ["js/jquery-3.6.0.min.js", "js/utilities/pinyin-to-zhuyin.js" ,"js/utilities/pinyin_converter.js", "js/components.js", "js/jcrop/jcrop.js", "content.js" ],
      "matches": [ "<all_urls>" ]
   }
-
   ],
 
   "web_accessible_resources": [
     {
-      "resources":["js/*", "media/*"],
+      "resources":["js/*", "media/*", "data/*", "ocr.html"],
       "matches":["<all_urls>"]
     }
   ],
   "content_security_policy":
   {
-    "script-src": ["self","unsafe-eval"],
-    "object-src": "self"
+    "extension_pages": "script-src 'self'; object-src 'self'"
   },
   "icons": {
      "128": "media/logo/LAOS.png",
      "16": "media/logo/LAOS16.png",
      "48": "media/logo/LAOS48.png"
   }
-
 
 }

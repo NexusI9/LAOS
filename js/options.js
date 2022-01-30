@@ -32,12 +32,10 @@ Written by Nassim El Khantour.
 function loadSettings(){
 
   document.querySelector("#openLaos > input").addEventListener('click',() => chrome.runtime.sendMessage({ type: 'open', url: '/laos.html'}) );
-  document.querySelector("#about > a").addEventListener('click',() => chrome.runtime.sendMessage({ type: 'open', url: '/about.html'}) );
+  document.querySelector("#openOCR > input").addEventListener('click',() => chrome.runtime.sendMessage({ type: 'screenshot'}) );
+  document.querySelector("#about > a").addEventListener('click',() => chrome.runtime.sendMessage({ type: 'open', url: '/pages/about.html'}) );
 
   chrome.storage.local.get(null,function(data){
-
-    const dispZhuyin = data.laosSettings["dispZhuyin"];
-    document.querySelector(`input[name='dispZhuyin']`).checked = (dispZhuyin == "true") ? true : false;
 
     const tradsimp = data.laosSettings["tradsimp"];
     document.querySelector(`input[name='tradsimp'][value="${tradsimp}"]`).checked = true;
@@ -45,9 +43,17 @@ function loadSettings(){
     const activeNotif = data.laosSettings["activeNotif"];
     document.querySelector(`input[name='activeNotif']`).checked = (activeNotif == "true") ? true : false;
 
-    const canvasBkg = data.laosSettings["hoverTrans"];
-    document.querySelector(`input[name='hoverTrans']`).checked = (canvasBkg == "true") ? true : false;
+    const hoverTrans = data.laosSettings["hoverTrans"];
+    document.querySelector(`input[name='hoverTrans']`).checked = (hoverTrans == "true") ? true : false;
 
+    const pinyinBubble = data.laosSettings["pinyinBubble"];
+    document.querySelector(`input[name='pinyinBubble']`).checked = (pinyinBubble == "true") ? true : false;
+
+  });
+
+  chrome.commands.getAll((commands) => {
+    var command = commands.find((command) => command.name === 'screencapture' );
+    console.log( command );
   });
 
 

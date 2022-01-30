@@ -29,12 +29,12 @@ Written by Nassim El Khantour.
  */
 
 
-import COSMA from './cosma.js';
+import COSMA from './vfx/cosma.js';
 import MODE_ONE from './modes/MODE_ONE.js';
 import MODE_TWO from './modes/MODE_TWO.js';
 import MODE_THREE from './modes/MODE_THREE.js';
 import MODE_FOUR from './modes/MODE_FOUR.js';
-import * as UTILS from './utils.js';
+import * as UTILS from './utilities/utils.js';
 
 let mainMode = "mone";
 
@@ -96,13 +96,13 @@ $(document).ready(function(){
 
       laosSettings["tradsimp"] = data.laosSettings["tradsimp"];
 
-      if(data["wordList"]){ wordList = data["wordList"] };
+      wordList = data["wordList"] || [];
 
       //INIT
       if(!data["mainMode"]){ chrome.storage.local.set({mainMode:"mone"}); }
       else {  mainMode = data["mainMode"]; }
 
-      $.get(mainMode+".html", function(data){
+      $.get('pages/'+mainMode+".html", function(data){
         $("body").append(data);
 
         switch(mainMode){
