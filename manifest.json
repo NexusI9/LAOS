@@ -27,25 +27,36 @@
     {
      "all_frames": true,
      "css": [ "laos_sheet.css", "js/jcrop/jcrop.css" ],
-     "js": ["js/jquery-3.6.0.min.js", "js/utilities/pinyin-to-zhuyin.js" ,"js/utilities/pinyin_converter.js", "js/components.js", "js/jcrop/jcrop.js", "content.js" ],
+     "js": [
+       "js/jquery-3.6.0.min.js",
+       "js/utilities/pinyin-to-zhuyin.js" ,
+       "js/utilities/pinyin_converter.js",
+       "js/components.js",
+       "js/jcrop/jcrop.js",
+       "content.js"
+     ],
      "matches": [ "<all_urls>" ]
   }
   ],
 
   "web_accessible_resources": [
     {
-      "resources":["js/*", "media/*", "data/*", "ocr.html"],
+      "resources":["js/*", "media/*", "data/*","ocr.html"],
       "matches":["<all_urls>"]
     }
   ],
   "content_security_policy":
   {
-    "extension_pages": "script-src 'self'; object-src 'self'"
+    "extension_pages": "script-src 'self'; object-src 'self'",
+    "sandbox":"sandbox allow-scripts allow-forms allow-popups allow-modals; script-src 'self' 'unsafe-inline' 'unsafe-eval'; child-src 'self' 'unsafe-inline' 'unsafe-eval';  worker-src 'self' blob: ;"
   },
   "icons": {
      "128": "media/logo/LAOS.png",
      "16": "media/logo/LAOS16.png",
      "48": "media/logo/LAOS48.png"
+  },
+  "sandbox": {
+    "pages": ["ocr.html"]
   }
 
 }

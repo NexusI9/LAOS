@@ -32,6 +32,7 @@ Written by Nassim El Khantour.
 
 import ZhongwenDictionary from './js/utilities/zhongwendico.js';
 
+
 let dict;
 const initStorage = {
   laosSettings: {
@@ -117,10 +118,13 @@ function tryImport(url){
     console.log(e);
   }
 }
+function getActiveTab(){
+  return chrome.tabs.query({active:true, lastFocusedWindow:true});
+}
 function startScreenCapture(){
-  chrome.tabs.query({active:true, lastFocusedWindow:true}, (tab) => {
+  getActiveTab().then( tab => {
     chrome.tabs.captureVisibleTab( tab[0].windowId, {format:'png'}, (capture) => {
-      chrome.tabs.sendMessage(tab[0].id, {type:'jcrop', image:capture});
+      chrome.tabs.sendMessage(tab[0].id, {type:'jcrop', image:capture, tabId: tab[0].id });
     });
   });
 }
@@ -275,6 +279,7 @@ chrome.runtime.onMessage.addListener(function(req, sender, cback){
     case 'screenshot':
       startScreenCapture();
     break;
+
 
   }
 

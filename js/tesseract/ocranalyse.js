@@ -49,6 +49,9 @@ class OcrAnalyse{
     this.image = ob.image;
     this.tradsimp = ob.tradsimp;
     this.ratio = ob.ratio;
+    this.workerPath = ob.workerPath;
+    this.langPath = ob.langPath;
+    this.corePath = ob.corePath;
 
     /*private*/
     this.selector = 'ocr_img';
@@ -112,15 +115,13 @@ class OcrAnalyse{
     const self = this;
     return new Promise( (resolve) => {
 
-
       const worker = Tesseract.createWorker({
-        "workerBlobURL": false, //<=?????
-        "workerPath": chrome.runtime.getURL('/js/tesseract/worker.min.js'),
-        "langPath":   chrome.runtime.getURL('/data'),
-        "corePath":   chrome.runtime.getURL('/js/tesseract/tesseract-core.wasm.js'),
+        "workerBlobURL": true, //<= CSP 'blob:',
+        "cacheMethod":'none', //no use of IndexedDB (prevent error)
+        "workerPath": self.workerPath,
+        "langPath":  self.langPath,
+        "corePath": self.corePath
       });
-
-      console.log(worker);
 
       const lang = (self.tradsimp == 'traditional') ? 'chi_tra' : 'chi_sim';
       //https://github.com/tesseract-ocr/tesseract/blob/4.0.0/src/ccstruct/publictypes.h#L163
@@ -154,16 +155,6 @@ class OcrAnalyse{
 
   }
 
-  getBaseDimension(baseSrc){
-
-    return new Promise( (resolve) => {
-      const baseCapture = new Image();
-      baseCapture.onload = () => resolve({w:baseCapture.width, h:baseCapture.height});
-      baseCapture.src = baseSrc;
-    });
-
-  }
-
   crop(){
 
     const self = this;
@@ -174,26 +165,19 @@ class OcrAnalyse{
       const width = self.area.w;
       const height = self.area.h;
 
-      this.getBaseDimension(self.image).then( (data) => {
+      const canvas = new OffscreenCanvas(width, height);
+      const context = canvas.getContext('2d');
 
-        const canvas = new OffscreenCanvas(width, height);
-        const context = canvas.getContext('2d');
-
-
-        /*base64 picture => Blob => ImageBitmap*/
-        fetch(self.image)
-          .then( pic => pic.blob() )
-          .then( blob => createImageBitmap(blob) )
-          .then( bitmap => {
-            context.drawImage(bitmap,
-              x*self.ratio, y*self.ratio, width*self.ratio, height*self.ratio,
-              0, 0, width, height);
-              resolve( canvas.convertToBlob() );
-           });
-
-
-      });
-
+      /*base64 picture => Blob => ImageBitmap*/
+      fetch(self.image)
+        .then( pic => pic.blob() )
+        .then( blob => createImageBitmap(blob) )
+        .then( bitmap => {
+          context.drawImage(bitmap,
+            x*self.ratio, y*self.ratio, width*self.ratio, height*self.ratio,
+            0, 0, width, height);
+            resolve( canvas.convertToBlob() );
+         });
 
     });
 
@@ -205,7 +189,7 @@ class OcrAnalyse{
 
       cropped.then( result => self.filter(result,type) )
         .then( blob => self.blobToBase64(blob) )
-        .then( img => { /*console.log(img);*/ resolve(self.doOCR(img)); } )
+        .then( img => resolve(self.doOCR(img)) )
     });
   }
 
@@ -227,12 +211,10 @@ class OcrAnalyse{
 
 window.addEventListener("message", (req) => {
   req = req.data;
+
   switch(req.type){
     case 'ocr':
-       new OcrAnalyse({ image:req.image, area: req.area, tradsimp:req.tradsimp, ratio:req.ratio })
-        .init()
-        .then( result =>  window.parent.postMessage({type:'ocr_result', result:result},"*") );
-
+       new OcrAnalyse(req).init().then( result =>  window.parent.postMessage({type:'ocr_result', result:result},"*") );
     break;
   }
 

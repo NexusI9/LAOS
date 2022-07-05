@@ -447,7 +447,8 @@ function __init__(){
     }
   });
 
-  window.addEventListener('message', (req) =>{
+  window.addEventListener("message", (req) => {
+
     req = req.data;
     switch(req.type){
       case 'ocr_result':

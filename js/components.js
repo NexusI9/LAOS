@@ -333,6 +333,8 @@ class JCROP{
 /*Laos ocr result*/
 class LAOS_OCR extends MANAGER{
 
+  mockFrame;
+
   constructor(ob){
     super();
     this.text;
@@ -350,24 +352,31 @@ class LAOS_OCR extends MANAGER{
     const self = this;
     return new Promise( (resolve) => {
             /*Instanciate Mock iframe to access OCR.html with tesseract*/
-            const mockFrame = $("<iframe />", {
+            self.mockFrame = $("<iframe />", {
                   name:'mockFrame',
                   id:'mockFrame',
+                  sandbox:'allow-same-origin allow-scripts',
                   src: chrome.runtime.getURL('/ocr.html'),
                   css: {display:'none'}
                 }).appendTo('body').get(0);
 
-            const request = {
-              type:'ocr',
-              image:img,
-              area:area,
-              tradsimp:tradsimp,
-              ratio: window.devicePixelRatio
-            };
-
-            mockFrame.onload = () => { mockFrame.contentWindow.postMessage(request, "*"); }
+            self.mockFrame.onload = () => {
+              const data = {
+                type:'ocr',
+                image:img,
+                area:area,
+                tradsimp:tradsimp,
+                ratio: window.devicePixelRatio,
+                workerPath: chrome.runtime.getURL('./js/tesseract/worker.min.js'),
+                langPath: chrome.runtime.getURL('./data'),
+                corePath: chrome.runtime.getURL('./js/tesseract/tesseract-core.wasm.js')
+              };
+              self.mockFrame.contentWindow.postMessage(data, "*");
+            }
     });
   }
+
+
 
   destroy(){
     const self = this;

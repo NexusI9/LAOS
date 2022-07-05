@@ -101,6 +101,8 @@
   align-items: baseline;
 }
 
+.laos_folder section{ padding: 0 !important; }
+
 .laos_header > *{
   padding:0.3em;
 }
@@ -128,7 +130,7 @@
   font-size: 110% !important;
 }
 
-.laos_popup h1,p{
+.laos_popup h1, .laos_popup p{
   padding: 0.2em;
 }
 
