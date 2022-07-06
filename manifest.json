@@ -26,11 +26,12 @@
   "content_scripts": [
     {
      "all_frames": true,
-     "css": [ "laos_sheet.css", "js/jcrop/jcrop.css" ],
+     "css": [ "styles/laos_sheet.css", "js/jcrop/jcrop.css" ],
      "js": [
        "js/jquery-3.6.0.min.js",
        "js/utilities/pinyin-to-zhuyin.js" ,
        "js/utilities/pinyin_converter.js",
+       "js/utilities/convert.js",
        "js/components.js",
        "js/jcrop/jcrop.js",
        "content.js"

@@ -37,17 +37,18 @@ function loadSettings(){
 
   chrome.storage.local.get(null,function(data){
 
+    const initSettingValue = (setting) => {
+      const settingValue = data.laosSettings[setting];
+      document.querySelector(`input[name='${setting}']`).checked = (settingValue == "true") ? true : false;
+    }
+
     const tradsimp = data.laosSettings["tradsimp"];
     document.querySelector(`input[name='tradsimp'][value="${tradsimp}"]`).checked = true;
 
-    const activeNotif = data.laosSettings["activeNotif"];
-    document.querySelector(`input[name='activeNotif']`).checked = (activeNotif == "true") ? true : false;
-
-    const hoverTrans = data.laosSettings["hoverTrans"];
-    document.querySelector(`input[name='hoverTrans']`).checked = (hoverTrans == "true") ? true : false;
-
-    const pinyinBubble = data.laosSettings["pinyinBubble"];
-    document.querySelector(`input[name='pinyinBubble']`).checked = (pinyinBubble == "true") ? true : false;
+    initSettingValue("activeNotif");
+    initSettingValue("hoverTrans");
+    initSettingValue("pinyinBubble");
+    initSettingValue("convertPage");
 
   });
 

@@ -64,20 +64,18 @@ function Simplized(cc) {
 }
 
 const translationConfig = {
-    1: {icon: '🇨🇳', fn: Simplized},
-    2: {icon: '🇹🇼', fn: Traditionalized},
-    3: {icon: '🐼', fn: Pinyin},
-    4: {icon: '🇹🇼', fn: Traditionalized}
+    'simplified': Simplized,
+    'traditional': Traditionalized
 };
 
 function translateText(txt, conf) {
     if (!isWhiteSpace(txt) && isChinese(txt)) {
-        let translated = conf.fn(txt);
+        let translated = conf(txt);
         if (translated != txt) {
-            return conf.icon + translated;
+            return translated;
         }
     }
-    return '';
+    return txt;
 }
 
 function appendHtml(el, str) {
@@ -89,9 +87,8 @@ function appendHtml(el, str) {
 }
 
 function translateBody(fobj, targetEncoding) {
-    if (targetEncoding == 0) {
-        return;
-    }
+    if (!targetEncoding) { return; }
+
     if (typeof (fobj) == "object") {
         var nodes = fobj.childNodes;
     } else {
@@ -113,40 +110,8 @@ function translateBody(fobj, targetEncoding) {
         if (obj.tagName == "INPUT" && obj.value && obj.type != "text" && obj.type != "hidden") {
             obj.value = obj.value + " | " + translateText(obj.value, translationConfig[targetEncoding]);
         }
-        if (obj.nodeType == 3 && !obj['_seen']) {
-            let translated = translateText(obj.data, translationConfig[targetEncoding]);
-
-            if (translated) { // only append if different from the original
-
-                const br = document.createElement("br");
-                // add a line break after the original node
-                obj.parentNode.insertBefore(br, obj.nextSibling);
-
-                // clone original node
-                const newNode = obj.cloneNode(true);
-                // newNode.style.color = '#019ed3';
-                newNode.data = translated;
-
-                // add 2nd row with translated text
-                br.parentNode.insertBefore(newNode, br.nextSibling);
-
-                const br2 = document.createElement("br");
-                newNode.parentNode.insertBefore(br2, newNode.nextSibling);
-
-                if (targetEncoding === 4) {
-                    // append 3rd pinyin row
-                    const newNode2 = obj.cloneNode(true);
-                    newNode2.data = translateText(obj.data, translationConfig[3]);
-                    br2.parentNode.insertBefore(newNode2, br2.nextSibling);
-
-                    // append final br
-                    const br3 = document.createElement("br");
-                    newNode2.parentNode.insertBefore(br3, newNode2.nextSibling);
-                }
-
-                newNode['_seen'] = true;
-            }
-            obj['_seen'] = true;
+        if (obj.nodeType == 3) {
+            obj.data = translateText(obj.data, translationConfig[targetEncoding]);
         } else {
             translateBody(obj, targetEncoding);
         }

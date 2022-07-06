@@ -2,7 +2,11 @@
 
 @font-face {
   font-family: 'sansation';
-  src: url('./media/Sansation_Regular.ttf') format('truetype');
+  src: url('../media/Sansation_Regular.ttf') format('truetype');
+}
+
+html{
+  scroll-behavior: smooth;
 }
 
 body{
@@ -73,6 +77,12 @@ p, h1, h2{
 
 #sideMenu > ul{
   padding-left: 5%;
+}
+
+#sideMenu > img{
+  height: 50px;
+  margin-top: 20px;
+  margin-left: 20px;
 }
 
 #content{
@@ -152,7 +162,6 @@ section.sub h2{
   background-color:white;
   padding: 1% 3%;
   color: white;
-  border-radius: 10em;
   box-sizing: border-box;
   margin: 5% 0;
   width: max-content;
@@ -190,7 +199,7 @@ section.sub h2{
 }
 
 .info.warning{
-  border: solid #ff992e 2px;
+  border: solid #ff992e 1px;
 }
 
 .info.warning::before{

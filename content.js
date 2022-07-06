@@ -394,25 +394,38 @@ function onPopState(){ $('.laos_bubble').remove(); }
 
 function check_events(){
 
-    //BUBBLE EVENT
+    //----toggle Pinyin bubbles related events
     document.addEventListener('click', onClick);
     document.addEventListener('keydown', globalKeyDown)
     window.addEventListener('popstate', onPopState );
 
-    //LAOS POPUP EVENT
-    if( laosSettings && laosSettings['hoverTrans'] == 'true' ){
-      laos_popup.pop();
-      document.addEventListener('keydown', laosKeyDown);
-      document.addEventListener('mousemove', onMouseMove);
-      document.addEventListener('mousedown',onMouseDown);
-      document.addEventListener('mouseup',onMouseUp);
-    }else{
-      laos_popup.remove();
-      document.removeEventListener('keydown', laosKeyDown);
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mousedown',onMouseDown);
-      document.removeEventListener('mouseup',onMouseUp);
+    if( laosSettings ){
+
+      //----toggle Hover Translation Related events and functions
+      if(laosSettings['hoverTrans'] === 'true'){
+        laos_popup.pop();
+        document.addEventListener('keydown', laosKeyDown);
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mousedown',onMouseDown);
+        document.addEventListener('mouseup',onMouseUp);
+      }else{
+        laos_popup.remove();
+        document.removeEventListener('keydown', laosKeyDown);
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mousedown',onMouseDown);
+        document.removeEventListener('mouseup',onMouseUp);
+      }
+
+      //----toggle Page conversion (traditional / simplified)
+      if(laosSettings['convertPage'] === 'true' && laosSettings['tradsimp']){
+        translateBody(document.body, laosSettings['tradsimp']); // js/utilities/convert.js
+      }
+
+
     }
+
+
+
 
 }
 
@@ -427,6 +440,7 @@ function __init__(){
         - Window.PostMessage -> ocr iframe
     Add a listener so (live) update when options triggered and send message to background
   */
+
 
   chrome.runtime.onMessage.addListener((data) => {
 

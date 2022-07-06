@@ -36,13 +36,14 @@ import ZhongwenDictionary from './js/utilities/zhongwendico.js';
 let dict;
 const initStorage = {
   laosSettings: {
-        tradsimp:  "simplified",
-        activeNotif: "true",
-        hoverTrans: "true",
-        pinyinBubble: "true"
+        tradsimp:  "simplified", //use simplified or traditional
+        activeNotif: "true",     //Toggle notification system
+        hoverTrans: "true",      //Toggle hover translation
+        pinyinBubble: "true",    // Toggle pinyin bubble when click on words
+        convertPage:"true"       // Toggle page simplified/ traditional conversion
   },
-  wordList:[],
-  darkMode:'false'
+  wordList:[],                   // Wordlist
+  darkMode:'false'               // Set laos center theme
 }
 
 /*utilities*/

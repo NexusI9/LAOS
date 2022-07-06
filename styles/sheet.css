@@ -370,13 +370,13 @@ a, a:visited, a:hover, a:active { color:#FFF; }
 }
 
 
-#disp,#disp_three{        background-image: url("media/disp.svg");      }
-#lock,#lock_three{        background-image: url("media/unlock.svg");    }
+#disp,#disp_three{        background-image: url("../media/disp.svg");      }
+#lock,#lock_three{        background-image: url("../media/unlock.svg");    }
 
-#chrono{                  background-image: url("media/pen.svg");      }
-#list_moon{               background-image: url("media/moon.svg");      }
-#list_manual{             background-image: url("media/pen.svg");       }
-#input_ico{               background-image: url("media/pen_black.svg");
+#chrono{                  background-image: url("../media/pen.svg");      }
+#list_moon{               background-image: url("../media/moon.svg");      }
+#list_manual{             background-image: url("../media/pen.svg");       }
+#input_ico{               background-image: url("../media/pen_black.svg");
                           background-repeat: no-repeat;
                           width: 1.2em;
                           height: 1.2em;
@@ -384,17 +384,17 @@ a, a:visited, a:hover, a:active { color:#FFF; }
                           vertical-align: middle;
                           display: inline-flex;
           }
-#quest{                   background-image: url("media/q_off.svg");
+#quest{                   background-image: url("../media/q_off.svg");
                           transition: all 0.3s ease;
                           opacity: 0;
       }
 
-#ico_pinyin, #four_ico_pinyin{ background-image: url("media/show_pinyin.svg"); }
-#four_ico_yingwen, #two_def{background-image: url("media/english.svg");}
-.ico_roll{ background-image: url("media/dice_1.svg"); }
+#ico_pinyin, #four_ico_pinyin{ background-image: url("../media/show_pinyin.svg"); }
+#four_ico_yingwen, #two_def{background-image: url("../media/english.svg");}
+.ico_roll{ background-image: url("../media/dice_1.svg"); }
 
 .pen{
-    background-image: url("media/pen.svg");
+    background-image: url("../media/pen.svg");
     width:1.5em;
     height:1.5em;
     display: block;
@@ -403,13 +403,13 @@ a, a:visited, a:hover, a:active { color:#FFF; }
 
 #pin{ transition: all 0.3s ease; }
 
-#quest:hover{ background-image: url("media/q_active.svg"); }
+#quest:hover{ background-image: url("../media/q_active.svg"); }
 
 
-#grid{    background-image: url("media/mode_one.png");   }
-#face{    background-image: url("media/mode_two.png");   }
-#memo{    background-image: url("media/mode_three.png");   }
-#sent{    background-image: url("media/mode_four.png");   }
+#grid{    background-image: url("../media/mode_one.png");   }
+#face{    background-image: url("../media/mode_two.png");   }
+#memo{    background-image: url("../media/mode_three.png");   }
+#sent{    background-image: url("../media/mode_four.png");   }
 
 
 #manager{
@@ -460,7 +460,7 @@ td font{
 	width: 10em;
 	height: 10em;
 	margin-top:20%;
-	background-image: url('./media/loadSprite.png');
+	background-image: url('./../media/loadSprite.png');
 	background-position: 50% 50%;
 	background-repeat: no-repeat;
 	background-size: 100%;
@@ -773,7 +773,7 @@ button:focus {
     width:1em;
     height:1em;
     display: inherit;
-    background: url('media/upload_plus.svg') no-repeat;
+    background: url('../media/upload_plus.svg') no-repeat;
     background-size: contain;
     position: relative;
 
@@ -839,7 +839,7 @@ button:focus {
   font-size: 120%;
 }
 .upload .close{
-    background: #000 url("media/close.svg") no-repeat;
+    background: #000 url("../media/close.svg") no-repeat;
     background-size: 50%;
     background-position: center;
     width:1em;
@@ -1133,7 +1133,7 @@ button:focus {
   width: 40px;
   display: block;
   background-color: white;
-  background-image: url('./media/ocr.svg');
+  background-image: url('./../media/ocr.svg');
   background-repeat: no-repeat;
   background-position: center;
   background-size: 50%;
@@ -1226,7 +1226,7 @@ button:focus {
 #options .laos_setting.seperator{
   width: 100%;
   display: block;
-  height: 2px;
+  height: 1px;
 }
 
 #options .radio{
