@@ -224,6 +224,23 @@ export default class MONE_ONE{
       self.recount_rows();
     });
 
+    $('.td_pinZhu').on("click", function(){
+      let state = $(this).attr('data-state');
+      switch(state){
+        case 'pinyin':
+        state = 'zhuyin';
+        break;
+
+        case 'zhuyin':
+          state = 'pinyin';
+        break;
+      }
+
+      $(this).attr('data-state', state);
+      $('.td_pinyin').attr('data-state', state);
+
+    });
+
   }
 
   init(){
@@ -245,7 +262,7 @@ export default class MONE_ONE{
           tBuilder += "<td class='td_number'><p></p></td>";
           tBuilder += "<td class='td_character'>" + self.wordList[x][y][ self.laosSettings["tradsimp"] ] + "</td>";
           tBuilder += "<td class='td_input'><input type='text'></td>";
-          tBuilder += "<td class='td_pinyin'><p>" + self.wordList[x][y]["pinyin"].join(" ") + "</p><p>" + self.wordList[x][y]["zhuyin"] + "</p></td>";
+          tBuilder += "<td class='td_pinyin' data-state='pinyin'><p>" + self.wordList[x][y]["pinyin"].join(" ") + "</p><p>" + self.wordList[x][y]["zhuyin"] + "</p></td>";
           tBuilder += "<td class='td_def'><p>" + self.wordList[x][y]["definition"].join(";\xa0\xa0"); + "</p></td>";
 
           tr.innerHTML = tBuilder;

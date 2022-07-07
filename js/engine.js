@@ -64,10 +64,8 @@ function UI(){
     location.reload();
   });
 
-
-  $(".picto").hover(function(){
-    if( $(this).attr("desc") != null ){
-
+  $("*[desc]").hover(
+    function(){
       var e = window.event;
 
       var posX = e.clientX;
@@ -78,14 +76,11 @@ function UI(){
       }else{
             $("#popup_desc").css({opacity:1, top:posY, left:posX-$("#popup_desc").width()});
       }
-
+      console.log(this);
       $("#popup_desc p").text( $(this).attr("desc") );
-
-    }
-
-  }, function(){
-    $("#popup_desc").css({opacity:0});
-  });
+  },
+  function(){ $("#popup_desc").css({opacity:0});
+});
 
 
 }

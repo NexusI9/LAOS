@@ -500,9 +500,33 @@ button:focus {
   text-align: center;
 }
 
-.td_pinyin > p:last-child{
-  display: none;
+.td_pinZhu{
+  cursor: pointer;
+  transition: background 0.2s ease;
 }
+
+.td_pinZhu:hover{ background: #d4d4d4; }
+
+.td_pinZhu > p{ transition: opacity 0.2s ease;}
+
+.td_pinyin{ position: relative; }
+.td_pinyin > p:first-child{ position: relative; }
+.td_pinyin > p:last-child{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+ }
+
+.td_pinyin[data-state='pinyin'] > p:last-child{ opacity: 0; }
+.td_pinyin[data-state='pinyin'] > p:first-child{ opacity: 1; }
+
+.td_pinyin[data-state='zhuyin'] > p:first-child{ opacity: 0; }
+.td_pinyin[data-state='zhuyin'] > p:last-child{ opacity: 1; }
 
 .td_character{  font-size: 120%; }
 
