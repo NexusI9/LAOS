@@ -503,6 +503,7 @@ button:focus {
 .td_pinZhu{
   cursor: pointer;
   transition: background 0.2s ease;
+  text-transform: capitalize;
 }
 
 .td_pinZhu:hover{ background: #d4d4d4; }
@@ -699,11 +700,17 @@ button:focus {
 #speed{
     position: fixed;
     bottom:5%;
-    right:10%;
-    background: #5F04FF;
-    transition: all 0.5s ease;
-    border-radius: var(--roundPannel);
-    padding : var(--padPannel);
+    left:2%;
+}
+
+#speed > section{
+  background: #5F04FF;
+  transition: all 0.5s ease;
+  border-radius: var(--roundPannel);
+  padding : var(--padPannel);
+  margin-top: 5px;
+  display: flex;
+  flex-direction: column;
 }
 
 #speed > *{

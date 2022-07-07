@@ -168,9 +168,9 @@ export default class MONE_ONE{
             $(this).attr("desc",'Back to normal view');
             $(".td_def p, .td_pinyin p").css({opacity:0});
             $(".td_def, .td_pinyin").hover(
-              function(){ $(this).parent().find(".td_def p, .td_pinyin p").css({opacity:1});
+              function(){ $(this).parent().find(".td_def p, .td_pinyin[data-state='pinyin'] > p:first-of-type, .td_pinyin[data-state='zhuyin'] > p:last-of-type").css({opacity:1});
             },
-              function(){ $(this).parent().find(".td_def p, .td_pinyin p").css({opacity:0}); }
+              function(){ $(this).parent().find(".td_def p, .td_pinyin[data-state='pinyin'] > p:first-of-type, .td_pinyin[data-state='zhuyin'] > p:last-of-type").css({opacity:0}); }
             );
 
             $("#input_column").css({ display:'table-column' });
@@ -180,7 +180,7 @@ export default class MONE_ONE{
 
                 let clean_pinyin = UTILS.remove_tones($(this).parent().parent().find(".td_pinyin p").html()).replace(/\s/g, '');
                 if( $(this).val() == clean_pinyin ){
-                  $(this).parent().parent().find(".td_def p, .td_pinyin p").css({opacity:1});
+                  $(this).parent().parent().find(".td_def p, .td_pinyin[data-state='pinyin'] > p:first-of-type, .td_pinyin[data-state='zhuyin'] > p:last-of-type").css({opacity:1});
                   $(this).parent().parent().find(".td_def, .td_pinyin").unbind('mouseenter mouseleave');
                   $(this).parent().parent().addClass("tr_selected");
                   $(this).parent().parent().attr("data-selected","true");
@@ -203,7 +203,7 @@ export default class MONE_ONE{
             $(this).css({backgroundImage:'url("media/pen.svg")'});
             $(this).attr("desc",'Typing exercise');
             $(".td_def, .td_pinyin").unbind('mouseenter mouseleave');
-            $(".td_def p, .td_pinyin p").css({opacity:1});
+            $(".td_def p, .td_pinyin > p").css({opacity:''});
             $("#input_column, .td_input").css({ display:'none' });
 
             $(this).attr("data-value",'false');
@@ -236,6 +236,7 @@ export default class MONE_ONE{
         break;
       }
 
+      $(this).text(state);
       $(this).attr('data-state', state);
       $('.td_pinyin').attr('data-state', state);
 
