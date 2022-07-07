@@ -672,6 +672,8 @@ button:focus {
     width: 100%;
     display: grid;
 
+    z-index: 2;
+
 }
 
 #screen > section {
@@ -721,7 +723,9 @@ button:focus {
     visibility: none;
     display: none;
 }
-
+#speed > section > label:nth-of-type(2) span{
+  margin: 10px 0;
+}
 #speed label{
     cursor: pointer;
 }
@@ -731,8 +735,26 @@ button:focus {
 }
 
 
-#speed input:checked+label{
-    color:#ffa500;
+#speed input:checked+label[for='slow'] span{ background-image: url('../media/turtle_active.svg'); }
+#speed input:checked+label[for='mid'] span{ background-image: url('../media/cat_active.svg'); }
+#speed input:checked+label[for='fast'] span{ background-image: url('../media/rabbit_active.svg'); }
+
+#countdownSVG{
+  width: 40px;
+  position: fixed;
+  height: 40px;
+  bottom: 1.6vw;
+  right: 2%;
+  stroke-dasharray: 0,282;
+  animation-timing-function: linear;
+  animation-iteration-count: 1;
+  animation-name: countdown;
+  animation-play-state: running;
+  opacity: 1;
+}
+
+@keyframes countdown{
+  to{ stroke-dasharray: 283,282; }
 }
 
 .words{
@@ -751,7 +773,7 @@ button:focus {
     transition: all 0.5s ease;
     margin-top: 2.5%;
     transform: translateX(-50%);
-    width: 100%;
+    max-width: 60%;
     position: relative;
     text-align: center;
     left: 50%;
@@ -799,6 +821,14 @@ button:focus {
 
 }
 
+.ico{
+  width: 30px;
+  height: 30px;
+  display: block;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
 .upload .ico{
 
     width:1em;
@@ -809,6 +839,11 @@ button:focus {
     position: relative;
 
 }
+
+
+#speed label[for='slow'] span{ background-image: url(../media/turtle.svg); }
+#speed label[for='mid'] span{ background-image: url(../media/cat.svg); }
+#speed label[for='fast'] span{ background-image: url(../media/rabbit.svg); }
 
 .upload label{
 

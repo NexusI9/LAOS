@@ -11,14 +11,14 @@ export default class MODE_TWO{
       this.dsp = {
           opacity:1,
           visibility:'visible'
-      }
+      };
       this.pop = {
           display:'inline-flex'
-      }
+      };
       this.hid = {
           opacity:0,
           visibility:"hidden"
-      }
+      };
 
       this.timer = 0;
       this.speed = 5300;
@@ -46,6 +46,7 @@ export default class MODE_TWO{
 
           clearTimeout(self.timer);
 
+            $("#countdownSVG").css({opacity:''});
            $(document).off("keydown");
 
            $("#desc").css(self.dsp);
@@ -60,6 +61,7 @@ export default class MODE_TWO{
            $(".write").css(self.hid);
 
            $(".write").val("");
+
         }else{
 
           $(this).attr("data-value","true");
@@ -67,6 +69,7 @@ export default class MODE_TWO{
           clearTimeout(self.timer);
           self.t_pen = true;
           self.t_auto = false;
+          $("#countdownSVG").css({opacity:0});
 
           $(".write").css(self.dsp);
           $(".write").css({ width:$("#pin").width()+"px" });
@@ -120,8 +123,9 @@ export default class MODE_TWO{
 
       $(".scene").on("click", function(){ clearTimeout(self.timer); });
 
-      $("#speed > input").change(function(){
+      $("#speed input").change(function(){
           self.speed = $(this).attr("speed");
+          console.log(self.speed);
           clearTimeout(self.timer);
           self.timer = setInterval(function(){self.loop();},self.speed);
           return false;
@@ -132,12 +136,24 @@ export default class MODE_TWO{
     }
 
     loop(){
-            const self = this;
-            let rand_parent = UTILS.randomIntF(0,self.wordList.length-1);
-            let rand_child = UTILS.randomIntF(0,self.wordList[rand_parent].length-1);
-            $("#ideo").html( self.wordList[rand_parent][rand_child][ this.laosSettings["tradsimp"] ] );
-            $("#pin").html(  self.wordList[rand_parent][rand_child]["pinyin"].join(" ") );
-            $("#desc").html( self.wordList[rand_parent][rand_child]["definition"].join(";\xa0\xa0"));
+          const self = this;
+          const actual = $('#countdownSVG');
+          const clone = actual.clone(true);
+
+          clone.css({animationDuration:self.speed+'ms'});
+          actual[0].parentNode.replaceChild(clone[0], actual[0]);
+
+
+          let rand_parent = UTILS.randomIntF(0,self.wordList.length-1);
+          let rand_child = UTILS.randomIntF(0,self.wordList[rand_parent].length-1);
+          $("#ideo").html( self.wordList[rand_parent][rand_child][ self.laosSettings["tradsimp"] ] );
+          $("#pin").html(  self.wordList[rand_parent][rand_child]["pinyin"].join(" ") );
+          $("#desc").html( self.wordList[rand_parent][rand_child]["definition"].join(";\xa0\xa0"));
+
+
+
+
+
     }
 
     init(){
@@ -161,10 +177,7 @@ export default class MODE_TWO{
           $("#quest").css(this.rm);
 
           //init
-          $("#ideo").html( self.wordList[0][0][ self.laosSettings["tradsimp"] ] );
-          $("#pin").html(  self.wordList[0][0]["pinyin"].join(" ") );
-          $("#desc").html( self.wordList[0][0]["definition"].join(";\xa0\xa0") );
-
+          this.loop();
           self.setEvent();
 
     }
