@@ -102,13 +102,13 @@ function translateBody(fobj, targetEncoding) {
         }
 
         if (obj.title) {
-            obj.title = obj.title + " | " + translateText(obj.title, translationConfig[targetEncoding]);
+            obj.title = translateText(obj.title, translationConfig[targetEncoding]);
         }
         if (obj.alt) {
-            obj.alt = obj.alt + " | " + translateText(obj.alt, translationConfig[targetEncoding]);
+            obj.alt = translateText(obj.alt, translationConfig[targetEncoding]);
         }
         if (obj.tagName == "INPUT" && obj.value && obj.type != "text" && obj.type != "hidden") {
-            obj.value = obj.value + " | " + translateText(obj.value, translationConfig[targetEncoding]);
+            obj.value = translateText(obj.value, translationConfig[targetEncoding]);
         }
         if (obj.nodeType == 3) {
             obj.data = translateText(obj.data, translationConfig[targetEncoding]);
