@@ -156,6 +156,8 @@ export default class MODE_THREE{
         return;
       }
 
+      //flatten array
+      self.wordList = self.wordList.flat();
 
       $("body").css({overflow:'hidden'});
       $("#vfx_epicentre").remove();
@@ -179,13 +181,12 @@ export default class MODE_THREE{
         if(c%2 == 0){
           let rand_parent = rand_list[c/2];
           let rand_child = UTILS.randomIntF(0, self.wordList[rand_parent].length-1);
-
           var card_pair = [];
 
-          card_pair.push( self.wordList[rand_parent][rand_child][ self.laosSettings["tradsimp"] ] );
-          card_pair.push( self.wordList[rand_parent][rand_child]["pinyin"].join(" ") );
+          card_pair.push( self.wordList[rand_parent][ self.laosSettings["tradsimp"] ] );
+          card_pair.push( self.wordList[rand_parent]["pinyin"].join(" ") );
 
-          var filtered_desc = self.wordList[rand_parent][rand_child]["definition"].join("; ");
+          var filtered_desc = self.wordList[rand_parent]["definition"].join("; ");
           filtered_desc = filtered_desc.replace(/[^\x00-\x7F]/g, "");
           filtered_desc = filtered_desc.replace( / *\([^)]*\) */g, " ");
           filtered_desc = filtered_desc.replace( / *\[[^)]*\] */g, " ");

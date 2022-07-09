@@ -12,7 +12,7 @@
      "default_title": "LAOS"
   },
   "description":"LAOS is the chinese learning toolbox! Including a popup translator, personalised exercises and much more!",
-  "version":"1.4.0.1",
+  "version":"1.4.0.5",
   "manifest_version":3,
   "permissions":["storage", "tabs", "activeTab","notifications", "alarms"],
   "host_permissions": [ "\u003Call_urls>" ],

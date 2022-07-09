@@ -40,7 +40,7 @@ const initStorage = {
         activeNotif: "true",     //Toggle notification system
         hoverTrans: "true",      //Toggle hover translation
         pinyinBubble: "true",    // Toggle pinyin bubble when click on words
-        convertPage:"true"       // Toggle page simplified/ traditional conversion
+        convertPage:"false"       // Toggle page simplified/ traditional conversion
   },
   wordList:[],                   // Wordlist
   darkMode:'false'               // Set laos center theme
@@ -210,7 +210,7 @@ chrome.runtime.onMessage.addListener(function(req, sender, cback){
     case 'add':
 
       chrome.storage.local.get("wordList",function(data){
-        
+
           data["wordList"].push(req.object);
           chrome.storage.local.set({wordList: data["wordList"] },function(){
             chrome.storage.local.get("tabID",function(data){
