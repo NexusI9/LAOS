@@ -191,7 +191,9 @@ export default class MODE_THREE{
           filtered_desc = filtered_desc.replace( / *\([^)]*\) */g, " ");
           filtered_desc = filtered_desc.replace( / *\[[^)]*\] */g, " ");
           filtered_desc = filtered_desc.split(",")[0];
-          filtered_desc = filtered_desc.split(";")[0];
+          filtered_desc = filtered_desc.split(";");
+          if(filtered_desc[0] === " " && filtered_desc[1]){ filtered_desc = filtered_desc[1]; }
+          else{ filtered_desc = filtered_desc[0]; }
 
           card_pair.push( filtered_desc );
           card_array.push( card_pair );
