@@ -61,11 +61,13 @@ function update_storage(){
       chrome.storage.local.set({laosSettings:initStorage.laosSettings}, () => update_storage() );
     }else{
       if(data.laosSettings.activeNotif){ setAlarm(); }
+
       chrome.tabs.query({}, function(tabs){
         for(var i = 0; i< tabs.length; i++){
           chrome.tabs.sendMessage(tabs[i].id, {type:'laosSettings', settings:data.laosSettings});
         }
       });
+
     }
 
   });
@@ -111,14 +113,7 @@ function setAlarm(){
     chrome.alarms.clear("notifAlarm");
     chrome.alarms.create("notifAlarm",alarmConfig);
 }
-function tryImport(url){
-  try{
-    importScripts(chrome.runtime.getURL(url));
-    return true;
-  }catch(e){
-    console.log(e);
-  }
-}
+
 function getActiveTab(){
   return chrome.tabs.query({active:true, lastFocusedWindow:true});
 }
@@ -215,7 +210,7 @@ chrome.runtime.onMessage.addListener(function(req, sender, cback){
     case 'add':
 
       chrome.storage.local.get("wordList",function(data){
-
+        
           data["wordList"].push(req.object);
           chrome.storage.local.set({wordList: data["wordList"] },function(){
             chrome.storage.local.get("tabID",function(data){

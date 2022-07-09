@@ -434,53 +434,54 @@ function __init__(){
 
   check_events();
   lastLocation = window.location.href;
-  /*
-    use - Chrome.tabs -> background.js to send new localStorage to all tabs
-        - Chrome.runtime -> content.js
-        - Window.PostMessage -> ocr iframe
-    Add a listener so (live) update when options triggered and send message to background
-  */
-
-
-  chrome.runtime.onMessage.addListener((data) => {
-
-    switch(data.type){
-
-      case 'laosSettings':
-          laosSettings = data.settings;
-          check_events();
-      break;
-
-      case 'jcrop':
-        if(!jCrop){
-          jCrop = new JCROP(data.image);
-          jCrop.init();
-        }
-      break;
-
-    }
-  });
-
-  window.addEventListener("message", (req) => {
-
-    req = req.data;
-    switch(req.type){
-      case 'ocr_result':
-        laos_ocr.setResult(req.result);
-      break;
-    }
-
-  });
-
-  window.addEventListener('resize', () => {
-    if(jCrop){
-      jCrop.destroy();
-      jCrop = null;
-    }
-  });
-
 
 }
+
+/*
+  use - Chrome.tabs -> background.js to send new localStorage to all tabs
+      - Chrome.runtime -> content.js
+      - Window.PostMessage -> ocr iframe
+  Add a listener so (live) update when options triggered and send message to background
+*/
+
+chrome.runtime.onMessage.addListener((data, sender, callback) => {
+
+  switch(data.type){
+
+    case 'laosSettings':
+        laosSettings = data.settings;
+        check_events();
+    break;
+
+    case 'jcrop':
+      if(!jCrop){
+        jCrop = new JCROP(data.image);
+        jCrop.init();
+      }
+    break;
+
+  }
+
+});
+
+window.addEventListener("message", (req) => {
+
+  req = req.data;
+  switch(req.type){
+    case 'ocr_result':
+      laos_ocr.setResult(req.result);
+    break;
+  }
+
+});
+
+window.addEventListener('resize', () => {
+  if(jCrop){
+    jCrop.destroy();
+    jCrop = null;
+  }
+});
+
 
 //First sync with chrome.storage -> then init
 chrome.runtime.sendMessage({type:'init'},() => {
